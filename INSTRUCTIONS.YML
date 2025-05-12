@@ -1,0 +1,83 @@
+# Core Models
+
+php artisan make:model User
+php artisan make:model Category
+php artisan make:model FreelancerProfile
+php artisan make:model WorkExperience
+php artisan make:model Education
+php artisan make:model Skill
+php artisan make:model FreelancerSkill
+php artisan make:model EmployerProfile
+
+# Project Related
+php artisan make:model Project
+php artisan make:model ProjectAttachment
+php artisan make:model ProjectSkill
+php artisan make:model Proposal
+
+# Job Related
+php artisan make:model Job
+php artisan make:model JobResponsibility
+php artisan make:model JobSkill
+php artisan make:model JobApplication
+
+# Reviews and Contracts
+php artisan make:model Review
+php artisan make:model Contract
+
+# Messaging and Payments
+php artisan make:model Message
+php artisan make:model Payment
+
+# Migrations without order
+
+php artisan make:migration create_users_table && \
+php artisan make:migration create_categories_table && \
+php artisan make:migration create_freelancer_profiles_table && \
+php artisan make:migration create_work_experiences_table && \
+php artisan make:migration create_educations_table && \
+php artisan make:migration create_skills_table && \
+php artisan make:migration create_freelancer_skills_table && \
+php artisan make:migration create_employer_profiles_table && \
+php artisan make:migration create_projects_table && \
+php artisan make:migration create_project_attachments_table && \
+php artisan make:migration create_project_skills_table && \
+php artisan make:migration create_proposals_table && \
+php artisan make:migration create_jobs_table && \
+php artisan make:migration create_job_responsibilities_table && \
+php artisan make:migration create_job_skills_table && \
+php artisan make:migration create_job_applications_table && \
+php artisan make:migration create_reviews_table && \
+php artisan make:migration create_contracts_table && \
+php artisan make:migration create_messages_table && \
+php artisan make:migration create_payments_table
+
+
+# Migrations order [just check migrations name]
+
+php artisan migrate --path=database/migrations/[timestamp]_create_users_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_categories_table.php
+
+php artisan migrate --path=database/migrations/[timestamp]_create_skills_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_freelancer_profiles_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_employer_profiles_table.php
+
+php artisan migrate --path=database/migrations/[timestamp]_create_projects_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_project_attachments_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_project_skills_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_proposals_table.php
+
+php artisan migrate --path=database/migrations/[timestamp]_create_jobs_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_job_responsibilities_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_job_skills_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_job_applications_table.php
+
+php artisan migrate --path=database/migrations/[timestamp]_create_work_experiences_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_educations_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_freelancer_skills_table.php
+
+php artisan migrate --path=database/migrations/[timestamp]_create_contracts_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_payments_table.php
+
+php artisan migrate --path=database/migrations/[timestamp]_create_reviews_table.php
+php artisan migrate --path=database/migrations/[timestamp]_create_messages_table.php
