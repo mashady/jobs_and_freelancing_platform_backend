@@ -20,7 +20,7 @@ class Category extends Model
 
     public function freelancers()
     {
-        return $this->hasMany(FreelancerProfile::class);
+        return $this->hasMany(FreelancerProfile::class, 'freelancer_id');
     }
 
     public function employers()
