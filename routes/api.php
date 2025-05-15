@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SkillController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -19,6 +20,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::apiResource('categories', CategoryController::class);
+Route::apiResource('skills', SkillController::class);
 
 
 /* Route::get('/email/verify', function () {
