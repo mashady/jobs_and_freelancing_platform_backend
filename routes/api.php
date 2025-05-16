@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SkillController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\FreelancerProfileController;
+use App\Http\Controllers\EmployerProfileController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -16,6 +18,8 @@ Route::post("/login", [AuthController::class, "login"]);
 
 // protected
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::apiResource('freelancer-profiles', FreelancerProfileController::class);
+    Route::apiResource('employer-profiles', EmployerProfileController::class);
     Route::post("/logout", [AuthController::class, "logout"]);
 });
 

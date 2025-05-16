@@ -6,18 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Skill extends Model
 {
-
-    protected $fillable = ['name'];
-
+    protected $fillable = [
+    'name',
+    ];
    public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function freelancers()
+    public function freelancerProfiles()
     {
-        return $this->belongsToMany(FreelancerProfile::class, 'freelancer_skills')
-            ->withPivot('proficiency_level', 'years_experience');
+        return $this->belongsToMany(FreelancerProfile::class, 'freelancer_skills', 'skill_id', 'freelancer_id');
     }
 
     public function projects()
