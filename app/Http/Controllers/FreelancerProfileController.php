@@ -204,7 +204,7 @@ public function update(Request $request, $id): JsonResponse
                 'category_id' => ['required', 'exists:categories,id'],
                 'english_level' => ['required', 'in:beginner,intermediate,advanced,fluent,native'],
                 'payment_method' => ['required', 'in:paypal,bank_transfer,crypto,other'],
-                'resume' => ['nullable', 'url', 'max:2048'],// 2MB max
+                'resume' => ['nullable', 'url', 'max:2048'],
                 'work_experiences' => ['required', 'array'],
                 'work_experiences.*.company_name' => ['required', 'string', 'max:255'],
                 'work_experiences.*.position' => ['required', 'string', 'max:255'],
