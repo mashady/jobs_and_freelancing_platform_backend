@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -25,6 +27,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('skills', SkillController::class);
+Route::apiResource('jobs', JobController::class);
+Route::apiResource('projects', ProjectController::class);
 
 
 /* Route::get('/email/verify', function () {
