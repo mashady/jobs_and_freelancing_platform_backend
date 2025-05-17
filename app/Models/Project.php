@@ -6,6 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    protected $fillable = [
+        'employer_id',
+        'category_id',
+        'title',
+        'description',
+        'budget_min',
+        'budget_max',
+        'duration',
+        'english_level',
+        'project_language',
+        'general_level',
+        'status',
+        'deadline',
+        'project_type'
+    ];
+
     public function employer()
     {
         return $this->belongsTo(EmployerProfile::class);

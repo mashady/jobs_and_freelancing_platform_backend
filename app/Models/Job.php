@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
 {
+    protected $fillable = [
+        'employer_id',
+        'category_id',
+        'position_name',
+        'location',
+        'offered_salary',
+        'job_description',
+        'experience_years',
+        'status',
+        'type',
+    ];
     public function employer()
     {
         return $this->belongsTo(EmployerProfile::class);
