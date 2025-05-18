@@ -22,13 +22,13 @@ Route::post("/login", [AuthController::class, "login"]);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('freelancer-profiles', FreelancerProfileController::class);
     Route::apiResource('employer-profiles', EmployerProfileController::class);
+    Route::apiResource('projects', ProjectController::class);
+    Route::apiResource('jobs', JobController::class);
     Route::post("/logout", [AuthController::class, "logout"]);
 });
 
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('skills', SkillController::class);
-Route::apiResource('jobs', JobController::class);
-Route::apiResource('projects', ProjectController::class);
 
 
 /* Route::get('/email/verify', function () {
