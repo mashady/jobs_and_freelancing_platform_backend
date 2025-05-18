@@ -64,7 +64,7 @@ public function store(Request $request): JsonResponse
 
     try {
         $validatedData = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
+            /* 'title' => ['required', 'string', 'max:255'], */
             'position_name' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
             'offered_salary' => ['required', 'numeric', 'min:0'],
