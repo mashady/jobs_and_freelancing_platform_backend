@@ -81,3 +81,9 @@ php artisan migrate --path=database/migrations/[timestamp]_create_payments_table
 
 php artisan migrate --path=database/migrations/[timestamp]_create_reviews_table.php
 php artisan migrate --path=database/migrations/[timestamp]_create_messages_table.php
+
+
+
+00000000000000000000
+
+
