@@ -11,25 +11,30 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 class AuthController extends Controller
 {
-    public function login(LoginRequest $request)
-    {
+public function login(LoginRequest $request)
+{
+    try {
         $user = User::where("email", $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message' => 'Invalid credentials',
-            ], 401);
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-
         $token = $user->createToken('auth_token')->plainTextToken;
-
 
         return response()->json([
             'user' => $user,
             'token' => $token,
         ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Login failed',
+            'error' => $e->getMessage(),
+        ], 500);
     }
+}
+
     public function logout(RegisterRequest $request)
     {
         auth()->logout();
@@ -37,8 +42,9 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Logout successful'], 200);
     }
-    public function register(RegisterRequest $request)
-    {
+public function register(RegisterRequest $request)
+{
+    try {
         $profileImage = null;
         if ($request->hasFile('profile_image')) {
             $profileImage = $request->file('profile_image')->store('profile_images', 'public');
@@ -54,13 +60,21 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
-        /* $user->sendEmailVerificationNotification(); */
+
         return response()->json([
             'message' => 'User registered successfully',
             'user' => $user,
             'token' => $token,
         ], 201);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Registration failed',
+            'error' => $e->getMessage(),
+        ], 500);
     }
+}
+
    /*  public function register(Request $request)
     {
         $user = \App\Models\User::create([
