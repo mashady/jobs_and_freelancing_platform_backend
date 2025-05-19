@@ -16,10 +16,11 @@ class Job extends Model
         'experience_years',
         'status',
         'type',
+        'job_responsibility'
     ];
     public function employer()
     {
-        return $this->belongsTo(EmployerProfile::class);
+        return $this->belongsTo(EmployerProfile::class, 'employer_id');
     }
 
     public function category()
