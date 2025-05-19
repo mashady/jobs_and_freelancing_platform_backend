@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\FreelancerProfileController;
 use App\Http\Controllers\EmployerProfileController;
 use App\Http\Controllers\JobCommentController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -52,3 +53,4 @@ Route::post('/email/verification-notification', [VerificationController::class, 
     Route::post('/comments', [JobCommentController::class, 'store']);
     Route::delete('/comments/{id}', [JobCommentController::class, 'destroy']);
 });
+Route::apiResource('payments', PaymentController::class);
