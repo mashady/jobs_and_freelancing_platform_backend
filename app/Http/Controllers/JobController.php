@@ -16,7 +16,10 @@ class JobController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $jobs = Job::with('skills')
+            $jobs = Job::with([
+                    'skills',
+                    'employer'
+                ])
                 ->orderBy('created_at', 'desc')
                 ->get();
 
@@ -37,7 +40,7 @@ class JobController extends Controller
     public function show($id): JsonResponse
     {
         try {
-            $job = Job::with('skills')->findOrFail($id);
+            $job = Job::with('skills', 'employer')->findOrFail($id);
 
             return response()->json([
                 'data' => $job,
