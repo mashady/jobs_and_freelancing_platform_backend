@@ -10,6 +10,8 @@ use App\Http\Controllers\SkillController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\FreelancerProfileController;
 use App\Http\Controllers\EmployerProfileController;
+use App\Http\Controllers\JobCommentController;
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
