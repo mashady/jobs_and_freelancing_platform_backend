@@ -39,7 +39,8 @@ class EmployerProfileController extends Controller
     {
         try {
             $profile = EmployerProfile::with(['user', 'category'])
-                ->findOrFail($id);
+                ->where('user_id', $id)
+                ->firstOrFail();
 
             return response()->json([
                 'data' => $profile,
