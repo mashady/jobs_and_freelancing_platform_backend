@@ -7,28 +7,28 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SkillController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\FreelancerProfileController;
 use App\Http\Controllers\EmployerProfileController;
-use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobCommentController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
 Route::post("/register", [AuthController::class, "register"]);
 Route::post("/login", [AuthController::class, "login"]);
+
+// protected
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/jobs/{id}', [JobController::class, 'show']);
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('freelancer-profiles', [FreelancerProfileController::class, 'index']);
-    Route::get('freelancer-profiles/{freelancer_profile}', [FreelancerProfileController::class, 'show']);
-    Route::get('employer-profiles', [EmployerProfileController::class, 'index']);
-    Route::get('employer-profiles/{employer_profile}', [EmployerProfileController::class, 'show']);
-
     Route::apiResource('freelancer-profiles', FreelancerProfileController::class);
     Route::apiResource('employer-profiles', EmployerProfileController::class);
     Route::apiResource('projects', ProjectController::class);
+    Route::apiResource('jobs', JobController::class);
 
     Route::get('/jobs/inactive', [JobController::class, 'inactiveJobs']);
     Route::get('/myJobs', [JobController::class, 'getEmployerJobs']);
@@ -54,6 +54,28 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('skills', SkillController::class);
+
+
+/* Route::get('/email/verify', function () {
+    return view('auth.verify-email'); // Or whatever view you have
+})->middleware(['auth'])->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home'); //  Where to redirect after successful verification
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', [VerificationController::class, 'sendVerificationEmail'])
+    ->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+ */
+
+
+ Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/jobs/{job}/comments', [JobCommentController::class, 'index']);
+    Route::post('/comments', [JobCommentController::class, 'store']);
+    Route::delete('/comments/{id}', [JobCommentController::class, 'destroy']);
+});
+Route::apiResource('payments', PaymentController::class);
 
 
 Route::get('/employer-profiles', [EmployerProfileController::class, 'index']);
