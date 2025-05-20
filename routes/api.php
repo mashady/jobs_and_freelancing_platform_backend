@@ -18,7 +18,8 @@ Route::get('/user', function (Request $request) {
 
 Route::post("/register", [AuthController::class, "register"]);
 Route::post("/login", [AuthController::class, "login"]);
-
+Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/{id}', [JobController::class, 'show']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('freelancer-profiles', [FreelancerProfileController::class, 'index']);
     Route::get('freelancer-profiles/{freelancer_profile}', [FreelancerProfileController::class, 'show']);
@@ -34,7 +35,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/employer/jobs/{jobId}/applications', [JobController::class, 'getJobApplications']);
     Route::patch('/jobs/{id}/activate', [JobController::class, 'activateJob']);
 
-    Route::apiResource('jobs', JobController::class); // protected routes (store, update, destroy)
+     Route::apiResource('jobs', JobController::class);  // protected routes (store, update, destroy)
     Route::patch('/application-status/{jobApplication}', [JobApplicationController::class, 'updateStatus']);
     Route::apiResource('job-applications', JobApplicationController::class);
 
@@ -53,6 +54,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('skills', SkillController::class);
-Route::get('/jobs', [JobController::class, 'index']);
+
+
 Route::get('/employer-profiles', [EmployerProfileController::class, 'index']);
+Route::get('/employer-profiles/{employer_profile}', [EmployerProfileController::class, 'show']);
 Route::get('/freelancer-profiles', [FreelancerProfileController::class, 'index']);
+Route::get('/freelancer-profiles/{freelancer_profile}', [FreelancerProfileController::class, 'show']);
+
+/* Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/{id}', [JobController::class, 'show']); */
+/* Route::get('/jobs', [JobController::class, 'index']); */
