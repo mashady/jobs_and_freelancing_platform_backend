@@ -41,7 +41,6 @@ class StoreFreelancerProfileRequest extends FormRequest
             'work_experiences.*.description' => ['nullable', 'string', 'max:1000'],
             'work_experiences.*.start_date' => ['required', 'date', 'before_or_equal:today'],
             'work_experiences.*.end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
-            'work_experiences.*.currently_working' => ['required', 'boolean'],
             'educations' => ['required', 'array'],
             'educations.*.institution' => ['required', 'string', 'max:255'],
             'educations.*.degree' => ['required', 'string', 'max:255'],
