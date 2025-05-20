@@ -10,6 +10,9 @@ use App\Http\Controllers\SkillController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\FreelancerProfileController;
 use App\Http\Controllers\EmployerProfileController;
+use App\Http\Controllers\JobApplicationController;
+
+
 use App\Http\Controllers\JobCommentController;
 use App\Http\Controllers\PaymentController;
 
