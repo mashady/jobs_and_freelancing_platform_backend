@@ -25,8 +25,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('employer-profiles', [EmployerProfileController::class, 'index']);
     Route::get('employer-profiles/{employer_profile}', [EmployerProfileController::class, 'show']);
 
-    Route::apiResource('freelancer-profiles', FreelancerProfileController::class)->except(['index', 'show']);
-    Route::apiResource('employer-profiles', EmployerProfileController::class)->except(['index', 'show']);
+    Route::apiResource('freelancer-profiles', FreelancerProfileController::class);
+    Route::apiResource('employer-profiles', EmployerProfileController::class);
     Route::apiResource('projects', ProjectController::class);
 
     Route::get('/jobs/inactive', [JobController::class, 'inactiveJobs']);
@@ -34,7 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/employer/jobs/{jobId}/applications', [JobController::class, 'getJobApplications']);
     Route::patch('/jobs/{id}/activate', [JobController::class, 'activateJob']);
 
-    Route::apiResource('jobs', JobController::class)->except(['index', 'show']); // protected routes (store, update, destroy)
+    Route::apiResource('jobs', JobController::class); // protected routes (store, update, destroy)
     Route::patch('/application-status/{jobApplication}', [JobApplicationController::class, 'updateStatus']);
     Route::apiResource('job-applications', JobApplicationController::class);
 
