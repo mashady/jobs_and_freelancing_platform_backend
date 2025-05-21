@@ -162,10 +162,10 @@ public function inactiveJobs(): JsonResponse
         $jobs = Job::with([
                 'category',
                 'skills',
-                'jobResponsibilities',
-                'jobApplications' => function($query) {
+                /* 'jobResponsibilities', */
+                /* 'jobApplications' => function($query) {
                     $query->with('user');
-                }
+                } */
             ])
             ->where('employer_id', $employerProfile->id)
             ->orderBy('created_at', 'desc')
