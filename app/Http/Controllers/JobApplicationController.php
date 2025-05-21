@@ -11,6 +11,37 @@ use Illuminate\Support\Facades\Validator;
 
 class JobApplicationController extends Controller
 {
+    public function getEmployerApplications()
+{
+    $user = Auth::user();
+
+    // Applications submitted by this user (freelancer view)
+    $userApplications = JobApplication::with(['job'])
+        ->where('user_id', $user->id)
+        ->latest()
+        ->get();
+
+    // Applications for this employer's jobs (employer view)
+    $employerApplications = [];
+
+    if ($user->role === 'employer') {
+        $employerJobs = Job::whereHas('employer', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->pluck('id');
+
+        $employerApplications = JobApplication::with(['job', 'user'])
+            ->whereIn('job_id', $employerJobs)
+            ->latest()
+            ->get();
+    }
+
+    return response()->json([
+        'success' => true,
+        'freelancer_applications' => $userApplications,
+        'employer_applications' => $employerApplications
+    ]);
+}
+
     public function index()
     {
         $applications = JobApplication::with(['job'])

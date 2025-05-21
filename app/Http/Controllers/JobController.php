@@ -18,6 +18,7 @@ class JobController extends Controller
     {
         try {
             $jobs = Job::with(['skills', 'employer'])
+                ->where('is_active', true)
                 ->orderBy('created_at', 'desc')
                 ->get();
 
