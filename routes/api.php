@@ -10,6 +10,9 @@ use App\Http\Controllers\SkillController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\FreelancerProfileController;
 use App\Http\Controllers\EmployerProfileController;
+use App\Http\Controllers\JobApplicationController;
+
+
 use App\Http\Controllers\JobCommentController;
 use App\Http\Controllers\PaymentController;
 
@@ -22,8 +25,7 @@ Route::post("/register", [AuthController::class, "register"]);
 Route::post("/login", [AuthController::class, "login"]);
 
 // protected
-Route::get('/jobs/{id}', [JobController::class, 'show']);
-Route::get('/jobs', [JobController::class, 'index']);
+
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -34,6 +36,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/jobs/inactive', [JobController::class, 'inactiveJobs']);
     Route::get('/myJobs', [JobController::class, 'getEmployerJobs']);
+
+    Route::get('/employer-applications', [JobApplicationController::class, 'getEmployerApplications']);
+
+
+
     Route::get('/employer/jobs/{jobId}/applications', [JobController::class, 'getJobApplications']);
     Route::patch('/jobs/{id}/activate', [JobController::class, 'activateJob']);
 
@@ -49,11 +56,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Job comments
     //Route::get('/jobs/{job}/comments', [JobCommentController::class, 'index'])->where('job', '[0-9]+');
     Route::post('/comments', [JobCommentController::class, 'store']);
+    Route::get('/comments/{id}', [JobCommentController::class, 'index']);
     Route::delete('/comments/{id}', [JobCommentController::class, 'destroy'])->where('id', '[0-9]+');
 
     Route::post("/logout", [AuthController::class, "logout"]);
 });
-
+Route::get('/jobs/{id}', [JobController::class, 'show']);
+Route::get('/jobs', [JobController::class, 'index']);
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('skills', SkillController::class);
 
