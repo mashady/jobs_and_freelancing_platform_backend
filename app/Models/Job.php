@@ -28,10 +28,10 @@ class Job extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function responsibilities()
+   /*  public function responsibilities()
     {
         return $this->hasMany(JobResponsibility::class);
-    }
+    } */
 
     public function skills()
     {
