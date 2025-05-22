@@ -33,7 +33,7 @@ class StoreFreelancerProfileRequest extends FormRequest
             'max_hourly_rate' => ['required', 'numeric', 'gte:min_hourly_rate'],
             'category_id' => ['required', 'exists:categories,id'],
             'english_level' => ['required', 'in:beginner,intermediate,advanced,fluent,native'],
-            'payment_method' => ['required', 'in:paypal,bank_transfer,crypto,other'],
+            'payment_method' => ['required', 'in:paypal,bank_transfer,crypto,other,stripe'],
             'resume' => ['nullable', 'url', 'max:2048'], // 2MB max
             'work_experiences' => ['required', 'array'],
             'work_experiences.*.company_name' => ['required', 'string', 'max:255'],
