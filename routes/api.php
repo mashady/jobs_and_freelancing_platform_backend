@@ -29,6 +29,7 @@ Route::post("/login", [AuthController::class, "login"]);
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
     Route::apiResource('freelancer-profiles', FreelancerProfileController::class);
     Route::apiResource('employer-profiles', EmployerProfileController::class);
     Route::apiResource('projects', ProjectController::class);
@@ -60,6 +61,33 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/comments/{id}', [JobCommentController::class, 'destroy'])->where('id', '[0-9]+');
 
     Route::post("/logout", [AuthController::class, "logout"]);
+    /*Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+     Route::get('/notifications/unread', function () {
+        return response()->json([
+            'notifications' => auth()->user()->unreadNotifications,
+            'unreadCount' => auth()->user()->unreadNotifications->count()
+        ]);
+    });
+
+    Route::post('/notifications/{notification}/mark-as-read', function ($notificationId) {
+        $notification = auth()->user()->notifications()
+            ->where('id', $notificationId)
+            ->first();
+
+        if ($notification) {
+            $notification->markAsRead();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 404);
+    });
+
+    Route::post('/notifications/mark-all-read', function () {
+        auth()->user()->unreadNotifications->markAsRead();
+        return response()->json(['success' => true]);
+    }); */
 });
 Route::get('/jobs/{id}', [JobController::class, 'show']);
 Route::get('/jobs', [JobController::class, 'index']);

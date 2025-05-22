@@ -16,7 +16,6 @@ class JobApplicationController extends Controller
     {
         $application = JobApplication::findOrFail($request->application_id);
         $amount = 5000000;
-
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
         $session = \Stripe\Checkout\Session::create([
@@ -133,6 +132,9 @@ public function store(Request $request)
 
     public function updateStatus(Request $request, JobApplication $jobApplication)
     {
+         if ($request->status === 'accepted' && $oldStatus !== 'accepted') {
+        event(new \App\Events\ApplicationApproved($jobApplication));
+    }
 
         $request->validate([
             'status' => 'required|in:pending,accepted,rejected'
