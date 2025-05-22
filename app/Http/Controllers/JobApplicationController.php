@@ -11,6 +11,31 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 class JobApplicationController extends Controller
 {
+
+    public function createSession(Request $request)
+    {
+        $application = JobApplication::findOrFail($request->application_id);
+        $amount = 5000000;
+
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+        $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => ['name' => 'Applicant Hiring Fee'],
+                    'unit_amount' => $amount,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',//http://127.0.0.1:5732/
+            'success_url' => url("http://localhost:5732/update-application?application_id={$application->id}&status=accepted"),
+            'cancel_url' => url('http://localhost:5732/employer/applications'),
+        ]);
+
+        return response()->json(['sessionId' => $session->id]);
+    }
     public function getEmployerApplications()
 {
     $user = Auth::user();
