@@ -86,7 +86,7 @@ Route::post('/email/verification-notification', [VerificationController::class, 
     Route::post('/comments', [JobCommentController::class, 'store']);
     Route::delete('/comments/{id}', [JobCommentController::class, 'destroy']);
 });
-Route::apiResource('payments', PaymentController::class);
+// Route::apiResource('payments', PaymentController::class);
 
 
 Route::get('/employer-profiles', [EmployerProfileController::class, 'index']);
