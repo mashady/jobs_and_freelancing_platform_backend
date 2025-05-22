@@ -266,6 +266,7 @@ public function update(Request $request, $id): JsonResponse
                 $exp = Education::create([
                     'freelancer_id' => $freelancerProfile->id,
                     'institution' => $experience['institution'],
+                    'description' => $experience['description'] ?? null,
                     'degree' => $experience['degree'],
                     'field_of_study' => $experience['field_of_study'] ?? null,
                     'start_date' => $experience['start_date'],

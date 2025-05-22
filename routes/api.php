@@ -97,3 +97,6 @@ Route::get('/freelancer-profiles/{freelancer_profile}', [FreelancerProfileContro
 /* Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/jobs/{id}', [JobController::class, 'show']); */
 /* Route::get('/jobs', [JobController::class, 'index']); */
+
+
+Route::post('/create-checkout-session', [JobApplicationController::class, 'createSession']);

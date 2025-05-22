@@ -8,9 +8,34 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Storage;
 class JobApplicationController extends Controller
 {
+
+    public function createSession(Request $request)
+    {
+        $application = JobApplication::findOrFail($request->application_id);
+        $amount = 5000000;
+
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+        $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => ['name' => 'Applicant Hiring Fee'],
+                    'unit_amount' => $amount,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',//http://127.0.0.1:5732/
+            'success_url' => url("http://localhost:5732/update-application?application_id={$application->id}&status=accepted"),
+            'cancel_url' => url('http://localhost:5732/employer/applications'),
+        ]);
+
+        return response()->json(['sessionId' => $session->id]);
+    }
     public function getEmployerApplications()
 {
     $user = Auth::user();
@@ -56,43 +81,45 @@ class JobApplicationController extends Controller
         ]);
     }
 
-    public function store(Request $request)
-    {
-        if ($request->hasFile('resume_path')) {
-            $profileImage = $request->file('resume_path')->store('resumes', 'public');
-        }
+public function store(Request $request)
+{
+    // Validate input
+    $validator = Validator::make($request->all(), [
+        'job_id' => 'required|exists:jobs,id',
+        'cover_letter' => 'required|string|max:1000',
+        'resume_path' => 'required|file|mimes:pdf,doc,docx|max:2048'
+    ]);
 
-        $validator = Validator::make($request->all(), [
-            'job_id' => 'required|exists:jobs,id',
-            'cover_letter' => 'required|string|max:1000',
-            'resume_path' => 'required|file|mimes:pdf,doc,docx|max:2048'
-        ]);
-
-        if ($request->hasFile('resume_path')) {
-            $request->merge(['resume_path' => $profileImage]);
-        }
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $jobApplication = JobApplication::create([
-            'job_id' => $request->job_id,
-            'user_id' => Auth::id(),
-            'resume_path' => $request->resume_path,
-            'cover_letter' => $request->cover_letter,
-            'status' => 'pending'
-        ]);
-
+    if ($validator->fails()) {
         return response()->json([
-            'success' => true,
-            'message' => 'Application submitted successfully!',
-            'data' => $jobApplication
-        ], 201);
+            'success' => false,
+            'errors' => $validator->errors()
+        ], 422);
     }
+
+    // Store resume file and get the storage path
+    if ($request->hasFile('resume_path')) {
+        $file = $request->file('resume_path');
+        $storedPath = $file->store('resumes', 'public'); // stored in storage/app/public/resumes
+    } else {
+        $storedPath = null;
+    }
+
+    // Create job application
+    $jobApplication = JobApplication::create([
+        'job_id' => $request->job_id,
+        'user_id' => Auth::id(),
+        'resume_path' => $storedPath, // save actual stored path
+        'cover_letter' => $request->cover_letter,
+        'status' => 'pending'
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Application submitted successfully!',
+        'data' => $jobApplication
+    ], 201);
+}
 
     public function show(JobApplication $jobApplication)
     {
